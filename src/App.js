@@ -8,6 +8,7 @@ function App() {
   // Main App
   const [homeScore, setHomeScore] = useState(0);
   const [awayScore, setAwayScore] = useState(0);
+
   const homeTD = e => {
     setHomeScore(homeScore + 7);
   };
@@ -20,16 +21,30 @@ function App() {
   const awayFG = e => {
     setAwayScore(awayScore + 3);
   };
-
-  const [quarter, setQuarter] = useState(0);
-
-  const addQuarter = e => {
+  // for BottomRow.js
+  const [quarter, setQuarter] = useState(1);
+  const [down, setDown] = useState(1);
+  const [toGo, setToGo] = useState(10);
+  const [ballOn, setBallOn] = useState(50);
+  const changeQuarter = e => {
     if (quarter < 4) {
       setQuarter(quarter + 1);
-    } else {
-      let quarterValue = document.querySelector(".quarter__value");
-      quarterValue.textContent = `OT`;
-    }
+    } else setQuarter("OT");
+  };
+  const changeDown = e => {
+    if (down < 4) {
+      setDown(down + 1);
+    } else setDown(down - 3);
+  };
+  const changeToGo = e => {
+    if (toGo === 1) {
+      setToGo(10);
+    } else setToGo(toGo - 1);
+  };
+  const changeBallOn = e => {
+    if (ballOn === 1) {
+      setBallOn(50);
+    } else setBallOn(ballOn - 1);
   };
 
   return (
@@ -51,11 +66,12 @@ function App() {
             <div className="away__score">{awayScore}</div>
           </div>
         </div>
-        <BottomRow quarter={quarter} />
+        <BottomRow quarter={quarter} down={down} toGo={toGo} ballOn={ballOn} />
       </section>
       <section className="buttons">
         <div className="homeButtons">
           {/* TODO STEP 4 - Now we need to attach our state setter functions to click listeners. */}
+          <h2>Home Team</h2>
           <button onClick={homeTD} className="homeButtons__touchdown">
             Home Touchdown
           </button>
@@ -64,11 +80,22 @@ function App() {
           </button>
         </div>
         <div className="gameButtons">
-          <button onClick={addQuarter} className="gameButtons__quarter">
+          <h2>Game Controls</h2>
+          <button onClick={changeDown} className="gameButtons__down">
+            Down
+          </button>
+          <button onClick={changeToGo} className="gameButtons__toGo">
+            To Go
+          </button>
+          <button onClick={changeBallOn} className="gameButtons__ballOn">
+            Ball On
+          </button>
+          <button onClick={changeQuarter} className="gameButtons__quarter">
             Qaurter
           </button>
         </div>
         <div className="awayButtons">
+          <h2>Away Team</h2>
           <button onClick={awayTD} className="awayButtons__touchdown">
             Away Touchdown
           </button>
